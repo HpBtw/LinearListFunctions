@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import listas.ListaCrescenteInt;
 import listas.ListaEvolucao;
 import modelo.Colaborador;
 
@@ -28,13 +27,16 @@ public class Onboarding {
             opcao = kb.nextInt();
             switch (opcao) {
                 case 0:
+                    listaEvo.show();
                     break;
                 case 1:
                     System.out.println(listaEvo.isEmpty());
-//                    pioresNotas();
                     break;
                 case 2:
-                    listaEvo.show();
+                    atualizarNota();
+                    break;
+                case 3:
+                    inserir();
                     break;
                 default:
                     System.out.println("Opcao Invalida");
@@ -46,26 +48,48 @@ public class Onboarding {
 
     }
 
+    private static void atualizarNota() {
+        System.out.println("Insira o ID do colaborador à ser atualizado: ");
+        int id = kb.nextInt();
+        Colaborador colabRetirado = listaEvo.retirar(id);
+        System.out.println(colabRetirado);
+        reinserir(colabRetirado);
+    }
+
+    private static void reinserir(Colaborador colabRetirado) {
+        System.out.println("Informe a nova nota do(a) colaborador(a) " + colabRetirado.getNome() + ": ");
+        int nota = kb.nextInt();
+        listaEvo.add(new Colaborador(colabRetirado.getId(), nota, colabRetirado.getBuddy(), colabRetirado.getSetor(), colabRetirado.getNome()));
+        System.out.println("Colaborador reinserido!");
+    }
+
+    private static void inserir() {
+        System.out.print("Informe o ID do colaborador à ser registrado: ");
+        int id = kb.nextInt();
+        System.out.print("Informe o nome e sobrenome do colaborador à ser registrado: ");
+        String nome = kb.nextLine();
+        kb.nextLine();
+        System.out.print("Informe o setor do colaborador à ser registrado: ");
+        String setor = kb.next();
+        kb.nextLine();
+        System.out.print("Informe o Buddy do colaborador à ser registrado: ");
+        String buddy = kb.nextLine();
+        listaEvo.add(new Colaborador(id, -1, buddy, setor, nome));
+    }
+
     private static void pioresNotas() {
         System.out.println("Deseja ler quantos colaboradores? ");
         int size = kb.nextInt();
     }
 
-    public static void geraLista(/*ListaEvolucao lista*/) {
-        /*Altere esse metodo para inserir um objeto da classe Colaborador na lista*/
+    public static void geraLista() {
         String caminhoDoArquivo = "src/arquivos/Colaboradores.txt";
 
         try {
-
-            // Criar um objeto File com o caminho do arquivo
             File arquivo = new File(caminhoDoArquivo);
-
-            // Criar um Scanner para ler o arquivo
             Scanner leArq = new Scanner(arquivo);
 
-            // Loop para ler linha por linha at� o final do arquivo
             while (leArq.hasNextLine()) {
-                // Ler a pr�xima linha
                 String linha = leArq.nextLine();
                 System.out.println(linha);
                 String[] partes = linha.split(";");
@@ -78,13 +102,9 @@ public class Onboarding {
                 Colaborador novoColab = new Colaborador(id, nota, buddy, setor, nome);
                 listaEvo.add(novoColab);
             }
-            // Fechar o objeto da classe Scanner le
             leArq.close();
         } catch (FileNotFoundException e) {
-            // Caso o arquivo n�o seja encontrado
             System.out.println("Arquivo n�o encontrado: " + e.getMessage());
         }
     }
-
-
 }

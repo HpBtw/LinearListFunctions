@@ -1,13 +1,13 @@
 package modelo;
 
 public class Colaborador {
-    private long id;
+    private int id;
     private String nome;
     private String setor;
     private String buddy;
-    private int nota = -1;
+    private int nota;
 
-    public Colaborador(long id, int nota, String buddy, String setor, String nome) {
+    public Colaborador(int id, int nota, String buddy, String setor, String nome) {
         this.id = id;
         this.nota = nota;
         this.buddy = buddy;
@@ -15,16 +15,11 @@ public class Colaborador {
         this.nome = nome;
     }
 
-    public String toString() {
-        return ("\nNome: " + this.nome + "\t|\tID: " + this.id
-        + "\nBuddy: " + this.buddy + "\t|\tSetor: " + this.setor + "\nNota: " + this.nota);
-    }
-
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,5 +53,11 @@ public class Colaborador {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String toString() {
+        return "Nome: " + this.nome + "\tID: " + this.id +
+                "\nBuddy: " + this.buddy + "\tSetor: " + this.setor +
+                "\nNota: " + this.nota;
     }
 }
