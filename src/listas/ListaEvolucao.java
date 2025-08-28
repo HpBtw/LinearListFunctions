@@ -5,6 +5,28 @@ import modelo.Colaborador;
 public class ListaEvolucao {
 
 
+    public void printPioresNotas(int size) {
+        NO aux = lista;
+        int cont = 0;
+        System.out.println("*********** Lista das " + size + " menores notas: ************");
+        while (aux != null && cont < size) {
+            Colaborador c = aux.colab;
+
+            if (c.getNota() == -1) {
+                aux = aux.prox;
+            } else {
+                System.out.printf("ID: %-5d | Nome: %-20s | Setor: %-5s | Buddy: %-20s | Nota: %d\n",
+                        c.getId(),
+                        c.getNome(),
+                        c.getSetor(),
+                        c.getBuddy(),
+                        c.getNota());
+                aux = aux.prox;
+                cont++;
+            }
+        }
+    }
+
     private class NO {
         Colaborador colab;
         NO prox;
@@ -23,22 +45,33 @@ public class ListaEvolucao {
         if (isEmpty()) {
             lista = novo;
             novo.prox = null;
-        } else if (novo.colab.getNota() < lista.colab.getNota() ||
+        }
+        else if (novo.colab.getNota() < lista.colab.getNota() ||
                 (novo.colab.getNota() == lista.colab.getNota() && novo.colab.getId() < lista.colab.getId())) {
             novo.prox = lista;
             lista = novo;
-        }  else {
+        }
+        else {
             NO aux = lista;
             boolean achou = false;
+
             while (aux.prox != null && !achou) {
-                if (aux.prox.colab.getNota() < novo.colab.getNota())
+                if (aux.prox.colab.getNota() < novo.colab.getNota()) {
                     aux = aux.prox;
-                else
+                }
+                else if (aux.prox.colab.getNota() == novo.colab.getNota() &&
+                        aux.prox.colab.getId() < novo.colab.getId()) {
+                    aux = aux.prox;
+                }
+                else {
                     achou = true;
+                }
             }
+
             novo.prox = aux.prox;
             aux.prox = novo;
         }
+
     }
 
     public Colaborador retirar(int id) {
@@ -60,8 +93,6 @@ public class ListaEvolucao {
             aux.prox = aux.prox.prox;
             return retirado;
         }
-
-        System.out.println("ID não encontrado");
         return null;
     }
         public void show() {
@@ -78,6 +109,20 @@ public class ListaEvolucao {
                         c.getNota());
                 aux = aux.prox;
             }
+        }
+
+        public boolean validar(int id) {
+            boolean valido = true;
+            NO aux = lista;
+            while (aux != null) {
+                Colaborador c = aux.colab;
+                if (id == c.getId()) {
+                    valido = false;
+                    break;
+                }
+                aux = aux.prox;
+            }
+            return valido;
         }
     }
 

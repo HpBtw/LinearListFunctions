@@ -19,6 +19,7 @@ public class Onboarding {
 
         int opcao;
         do {
+            System.out.println("==============================================================");
             System.out.println("0 - Encerrar atendimento");
             System.out.println("1 - Obter colaboradores com piores notas presentes na lista");
             System.out.println("2 - Atualizar nota de um colaborador");
@@ -30,7 +31,7 @@ public class Onboarding {
                     listaEvo.show();
                     break;
                 case 1:
-                    System.out.println(listaEvo.isEmpty());
+                    pioresNotas();
                     break;
                 case 2:
                     atualizarNota();
@@ -51,9 +52,14 @@ public class Onboarding {
     private static void atualizarNota() {
         System.out.println("Insira o ID do colaborador à ser atualizado: ");
         int id = kb.nextInt();
-        Colaborador colabRetirado = listaEvo.retirar(id);
-        System.out.println(colabRetirado);
-        reinserir(colabRetirado);
+        if (!listaEvo.validar((id))) {
+            Colaborador colabRetirado = listaEvo.retirar(id);
+            System.out.println(colabRetirado);
+            reinserir(colabRetirado);
+        } else {
+            System.out.println("ID não encontrado, tente novamente.");
+            atualizarNota();
+        }
     }
 
     private static void reinserir(Colaborador colabRetirado) {
@@ -66,20 +72,30 @@ public class Onboarding {
     private static void inserir() {
         System.out.print("Informe o ID do colaborador à ser registrado: ");
         int id = kb.nextInt();
+        kb.nextLine();
+        if (!listaEvo.validar(id)) {
+            System.out.println("Esse ID já pertence à algum colaborador, tente novamente.");
+            inserir();
+        }
         System.out.print("Informe o nome e sobrenome do colaborador à ser registrado: ");
         String nome = kb.nextLine();
-        kb.nextLine();
         System.out.print("Informe o setor do colaborador à ser registrado: ");
-        String setor = kb.next();
-        kb.nextLine();
+        String setor = kb.nextLine();
         System.out.print("Informe o Buddy do colaborador à ser registrado: ");
         String buddy = kb.nextLine();
-        listaEvo.add(new Colaborador(id, -1, buddy, setor, nome));
+        try {
+            listaEvo.add(new Colaborador(id, -1, buddy, setor, nome));
+            System.out.println("Colaborador adicionado!");
+            return;
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar o colaborador: " + e);
+        }
     }
 
     private static void pioresNotas() {
-        System.out.println("Deseja ler quantos colaboradores? ");
+        System.out.println("Deseja ler quantas notas? ");
         int size = kb.nextInt();
+        listaEvo.printPioresNotas(size);
     }
 
     public static void geraLista() {
