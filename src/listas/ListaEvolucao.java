@@ -27,6 +27,16 @@ public class ListaEvolucao {
         }
     }
 
+    public int contaColabs() {
+        int cont = 0;
+        NO aux = lista;
+        while (aux != null) {
+            cont++;
+            aux = aux.prox;
+        }
+        return cont;
+    }
+
     private class NO {
         Colaborador colab;
         NO prox;
@@ -71,7 +81,6 @@ public class ListaEvolucao {
             novo.prox = aux.prox;
             aux.prox = novo;
         }
-
     }
 
     public Colaborador retirar(int id) {

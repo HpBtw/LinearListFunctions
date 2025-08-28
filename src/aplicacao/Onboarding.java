@@ -14,7 +14,7 @@ public class Onboarding {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
 
-        listaEvo.add(new Colaborador(4000, 30, "Buddy Teste", "ADM", "Nome Teste"));
+        //listaEvo.add(new Colaborador(4000, 30, "Buddy Teste", "ADM", "Nome Teste"));
         geraLista();
 
         int opcao;
@@ -58,7 +58,7 @@ public class Onboarding {
             reinserir(colabRetirado);
         } else {
             System.out.println("ID não encontrado, tente novamente.");
-            atualizarNota();
+            atualizarNota(); //
         }
     }
 
@@ -95,6 +95,15 @@ public class Onboarding {
     private static void pioresNotas() {
         System.out.println("Deseja ler quantas notas? ");
         int size = kb.nextInt();
+        if (size < 0) {
+            System.out.println("Informe um número válido.");
+            pioresNotas();
+        }
+        int max = listaEvo.contaColabs();
+        if (size > max) {
+            System.out.println("Insira um número menor. Não foram registrados " + size + " colaboradores.");
+            pioresNotas();
+        }
         listaEvo.printPioresNotas(size);
     }
 
