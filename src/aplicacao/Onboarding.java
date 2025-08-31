@@ -93,18 +93,21 @@ public class Onboarding {
     }
 
     private static void pioresNotas() {
+        int size;
         System.out.println("Deseja ler quantas notas? ");
-        int size = kb.nextInt();
+        size = kb.nextInt();
         if (size < 0) {
             System.out.println("Informe um número válido.");
             pioresNotas();
+        } else {
+            int max = listaEvo.contaColabs();
+            if (size > max) {
+                System.out.println("Insira um número menor. Não foram registrados " + size + " colaboradores.");
+                pioresNotas();
+            } else {
+                listaEvo.printPioresNotas(size);
+            }
         }
-        int max = listaEvo.contaColabs();
-        if (size > max) {
-            System.out.println("Insira um número menor. Não foram registrados " + size + " colaboradores.");
-            pioresNotas();
-        }
-        listaEvo.printPioresNotas(size);
     }
 
     public static void geraLista() {
